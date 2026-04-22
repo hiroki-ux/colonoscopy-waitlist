@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>大腸カメラ キャンセル待ち登録 | やすふく内科クリニック</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a73a7;
+      --primary-dark: #145d87;
+      --primary-light: #e8f4fd;
+      --error: #d32f2f;
+      --success: #1b5e20;
+      --text: #212121;
+      --text-secondary: #555;
+      --border: #ccc;
+      --radius: 8px;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #f0f4f8;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 20px 16px 16px;
+      text-align: center;
+    }
+
+    header .clinic-name {
+      font-size: 15px;
+      font-weight: 500;
+      opacity: 0.9;
+      margin-bottom: 4px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    main {
+      padding: 20px 16px 40px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card-note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    label .required {
+      display: inline-block;
+      background: var(--error);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="date"] {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26, 115, 167, 0.15);
+    }
+
+    input.error-input {
+      border-color: var(--error);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    /* 曜日チェックボックス */
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .day-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 4px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .day-label input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .day-label:has(input:checked) {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .day-label:active {
+      opacity: 0.75;
+    }
+
+    .day-grid.error-input .day-label {
+      border-color: var(--error);
+    }
+
+    /* 送信ボタン */
+    .btn-submit {
+      width: 100%;
+      height: 52px;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .btn-submit:hover { background: var(--primary-dark); }
+    .btn-submit:disabled {
+      background: #90a4ae;
+      cursor: not-allowed;
+    }
+
+    /* 成功メッセージ */
+    #success-msg {
+      display: none;
+      background: #e8f5e9;
+      border: 1.5px solid #66bb6a;
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      color: var(--success);
+    }
+
+    #success-msg .check-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    #success-msg p {
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* 送信エラー */
+    #send-error {
+      display: none;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--error);
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzkVpwCK3w8hgs8YSCzF2lW_JNWYjqpvEXFEsoF7LcrePFQTt98oR7p7xUH_LDrNf79/exec";
+</script>
+
+<header>
+  <p class="clinic-name">医療法人礼文会 やすふく内科クリニック</p>
+  <h1>大腸カメラ検査<br>キャンセル待ち登録</h1>
+</header>
+
+<main>
+  <div id="form-wrapper">
+    <div class="card">
+      <p class="card-note">
+        キャンセルが発生した場合、ご登録のメールアドレスまたはお電話にてご連絡いたします。すべての項目は必須です。
+      </p>
+
+      <form id="waitlist-form" novalidate>
+
+        <!-- 氏名 -->
+        <div class="field-group">
+          <label>お名前 <span class="required">必須</span></label>
+          <div class="name-row">
+            <div>
+              <input type="text" id="lastName" placeholder="姓（例：山田）" autocomplete="family-name">
+              <p class="error-msg" id="err-lastName">姓を入力してください</p>
+            </div>
+            <div>
+              <input type="text" id="firstName" placeholder="名（例：太郎）" autocomplete="given-name">
+              <p class="error-msg" id="err-firstName">名を入力してください</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 電話番号 -->
+        <div class="field-group">
+          <label for="phone">携帯電話番号 <span class="required">必須</span></label>
+          <input type="tel" id="phone" placeholder="例：09012345678" inputmode="numeric" maxlength="11" autocomplete="tel">
+          <p class="hint">ハイフンなし・10〜11桁の数字</p>
+          <p class="error-msg" id="err-phone">正しい電話番号を入力してください（数字10〜11桁）</p>
+        </div>
+
+        <!-- メールアドレス -->
+        <div class="field-group">
+          <label for="email">メールアドレス <span class="required">必須</span></label>
+          <input type="email" id="email" placeholder="例：example@mail.com" inputmode="email" autocomplete="email">
+          <p class="hint">登録完了メールの送信先</p>
+          <p class="error-msg" id="err-email">正しいメールアドレスを入力してください</p>
+        </div>
+
+        <!-- 検査予定日 -->
+        <div class="field-group">
+          <label for="examDate">大腸カメラ検査の予定日 <span class="required">必須</span></label>
+          <input type="date" id="examDate">
+          <p class="error-msg" id="err-examDate">検査予定日を選択してください</p>
+        </div>
+
+        <!-- 希望曜日 -->
+        <div class="field-group">
+          <label>キャンセル待ちを希望する曜日 <span class="required">必須</span></label>
+          <div class="day-grid" id="day-grid">
+            <label class="day-label"><input type="checkbox" name="days" value="月">月</label>
+            <label class="day-label"><input type="checkbox" name="days" value="火">火</label>
+            <label class="day-label"><input type="checkbox" name="days" value="水">水</label>
+            <label class="day-label"><input type="checkbox" name="days" value="木">木</label>
+            <label class="day-label"><input type="checkbox" name="days" value="金">金</label>
+            <label class="day-label"><input type="checkbox" name="days" value="土">土</label>
+          </div>
+          <p class="error-msg" id="err-days">希望する曜日を1つ以上選択してください</p>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">登録する</button>
+        <p id="send-error">送信に失敗しました。時間をおいて再度お試しください。</p>
+
+      </form>
+    </div>
+  </div>
+
+  <div id="success-msg">
+    <div class="check-icon">✅</div>
+    <p>
+      登録が完了しました。<br>
+      ご入力いただいたメールアドレスに確認メールをお送りしました。<br>
+      担当スタッフより改めてご連絡いたします。
+    </p>
+  </div>
+</main>
+
+<footer>
+  <p>医療法人礼文社 やすふく内科クリニック</p>
+  <p>大阪府箕面市箕面5丁目12-71 ／ TEL：072-725-8555</p>
+</footer>
+
+<script>
+  // 検査予定日の最小値を今日に設定
+  (function() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById('examDate').min = `${yyyy}-${mm}-${dd}`;
+  })();
+
+  const form = document.getElementById('waitlist-form');
+  const submitBtn = document.getElementById('submit-btn');
+
+  function showError(id, inputId) {
+    document.getElementById(id).classList.add('visible');
+    const input = document.getElementById(inputId);
+    if (input) input.classList.add('error-input');
+  }
+
+  function clearError(id, inputId) {
+    document.getElementById(id).classList.remove('visible');
+    const input = document.getElementById(inputId);
+    if (input) input.classList.remove('error-input');
+  }
+
+  function validate() {
+    let valid = true;
+
+    const lastName = document.getElementById('lastName').value.trim();
+    if (!lastName) { showError('err-lastName', 'lastName'); valid = false; }
+    else clearError('err-lastName', 'lastName');
+
+    const firstName = document.getElementById('firstName').value.trim();
+    if (!firstName) { showError('err-firstName', 'firstName'); valid = false; }
+    else clearError('err-firstName', 'firstName');
+
+    const phone = document.getElementById('phone').value.trim();
+    if (!/^\d{10,11}$/.test(phone)) { showError('err-phone', 'phone'); valid = false; }
+    else clearError('err-phone', 'phone');
+
+    const email = document.getElementById('email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('err-email', 'email'); valid = false; }
+    else clearError('err-email', 'email');
+
+    const examDate = document.getElementById('examDate').value;
+    if (!examDate) { showError('err-examDate', 'examDate'); valid = false; }
+    else clearError('err-examDate', 'examDate');
+
+    const checkedDays = [...document.querySelectorAll('input[name="days"]:checked')];
+    const dayGrid = document.getElementById('day-grid');
+    if (checkedDays.length === 0) {
+      document.getElementById('err-days').classList.add('visible');
+      dayGrid.classList.add('error-input');
+      valid = false;
+    } else {
+      document.getElementById('err-days').classList.remove('visible');
+      dayGrid.classList.remove('error-input');
+    }
+
+    return valid;
+  }
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    document.getElementById('send-error').style.display = 'none';
+
+    if (!validate()) return;
+
+    const days = [...document.querySelectorAll('input[name="days"]:checked')].map(cb => cb.value);
+
+    const payload = {
+      lastName:  document.getElementById('lastName').value.trim(),
+      firstName: document.getElementById('firstName').value.trim(),
+      phone:     document.getElementById('phone').value.trim(),
+      email:     document.getElementById('email').value.trim(),
+      examDate:  document.getElementById('examDate').value,
+      days:      days
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById('form-wrapper').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (err) {
+      document.getElementById('send-error').style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '登録する';
+    }
+  });
+</script>
+
+</body>
+</html>
