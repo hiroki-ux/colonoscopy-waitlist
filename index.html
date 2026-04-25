@@ -146,7 +146,7 @@
     /* 曜日チェックボックス */
     .day-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 8px;
       margin-top: 2px;
     }
@@ -245,6 +245,12 @@
       font-size: 12px;
       color: #999;
     }
+
+    footer img.footer-logo {
+      display: block;
+      height: 36px;
+      margin: 0 auto 8px;
+    }
   </style>
 </head>
 <body>
@@ -262,7 +268,7 @@
   <div id="form-wrapper">
     <div class="card">
       <p class="card-note">
-        キャンセルが発生した場合、ご登録のメールアドレスまたはお電話にてご連絡いたします。すべての項目は必須です。
+        キャンセルが発生した場合、ご登録のお電話番号にご連絡いたします。日中連絡の取りやすい携帯番号などを記入するようにお願いします。
       </p>
 
       <form id="waitlist-form" novalidate>
@@ -302,6 +308,7 @@
         <div class="field-group">
           <label for="examDate">大腸カメラ検査の予定日 <span class="required">必須</span></label>
           <input type="date" id="examDate">
+          <p class="hint">現在ご予約済みの大腸カメラ検査の日付</p>
           <p class="error-msg" id="err-examDate">検査予定日を選択してください</p>
         </div>
 
@@ -312,7 +319,6 @@
             <label class="day-label"><input type="checkbox" name="days" value="月">月</label>
             <label class="day-label"><input type="checkbox" name="days" value="火">火</label>
             <label class="day-label"><input type="checkbox" name="days" value="水">水</label>
-            <label class="day-label"><input type="checkbox" name="days" value="木">木</label>
             <label class="day-label"><input type="checkbox" name="days" value="金">金</label>
             <label class="day-label"><input type="checkbox" name="days" value="土">土</label>
           </div>
@@ -337,8 +343,9 @@
 </main>
 
 <footer>
-  <p>医療法人礼文社 やすふく内科クリニック</p>
-  <p>大阪府箕面市箕面5丁目12-71 ／ TEL：072-725-8555</p>
+  <img src="logo.png" alt="やすふく内科クリニック" class="footer-logo">
+  <p>医療法人礼文会 やすふく内科クリニック</p>
+  <p>大阪府箕面市箕面5丁目12-71 パークプラザビル箕面 1階 ／ TEL：072-725-8555</p>
 </footer>
 
 <script>
