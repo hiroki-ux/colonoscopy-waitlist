@@ -230,6 +230,28 @@
       line-height: 1.8;
     }
 
+    #success-msg .notice-box {
+      margin-top: 20px;
+      background: #fff8e1;
+      border: 1.5px solid #ffc107;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: left;
+      color: #5d4037;
+    }
+
+    #success-msg .notice-box .notice-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #5d4037;
+    }
+
+    #success-msg .notice-box p {
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
     /* 送信エラー */
     #send-error {
       display: none;
@@ -361,6 +383,14 @@
       登録が完了しました。<br>
       ご入力いただいたメールアドレスに確認メールをお送りしました。
     </p>
+    <div class="notice-box">
+      <p class="notice-title">注意事項</p>
+      <p>
+        キャンセル発生時は【 電話 】でご連絡いたします。<br>
+        一定時間ご連絡が付かない場合は、次点の方へご連絡する場合がございます。<br>
+        予めご了承のほどよろしくお願いいたします。
+      </p>
+    </div>
   </div>
 </main>
 
@@ -471,30 +501,4 @@
       drinkLocation:    document.querySelector('input[name="drinkLocation"]:checked').value,
       doctorPreference: document.querySelector('input[name="doctorPreference"]:checked').value,
       days:             days
-    };
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = '送信中...';
-
-    try {
-      await fetch(GAS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      document.getElementById('form-wrapper').style.display = 'none';
-      document.getElementById('success-msg').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    } catch (err) {
-      document.getElementById('send-error').style.display = 'block';
-      submitBtn.disabled = false;
-      submitBtn.textContent = '登録する';
-    }
-  });
-</script>
-
-</body>
-</html>
+ 
