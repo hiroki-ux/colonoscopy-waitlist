@@ -501,4 +501,30 @@
       drinkLocation:    document.querySelector('input[name="drinkLocation"]:checked').value,
       doctorPreference: document.querySelector('input[name="doctorPreference"]:checked').value,
       days:             days
- 
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById('form-wrapper').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (err) {
+      document.getElementById('send-error').style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '登録する';
+    }
+  });
+</script>
+
+</body>
+</html>
