@@ -312,6 +312,28 @@
           <p class="error-msg" id="err-examDate">検査予定日を選択してください</p>
         </div>
 
+        <!-- 洗浄液を飲む場所 -->
+        <div class="field-group">
+          <label>洗浄液を飲む場所 <span class="required">必須</span></label>
+          <div class="day-grid" id="drink-location-grid" style="grid-template-columns: 1fr 1fr;">
+            <label class="day-label"><input type="radio" name="drinkLocation" value="院内">院内</label>
+            <label class="day-label"><input type="radio" name="drinkLocation" value="自宅">自宅</label>
+          </div>
+          <p class="error-msg" id="err-drinkLocation">洗浄液を飲む場所を選択してください</p>
+        </div>
+
+        <!-- 医師の希望 -->
+        <div class="field-group">
+          <label>医師の希望 <span class="required">必須</span></label>
+          <div class="day-grid" id="doctor-pref-grid" style="grid-template-columns: 1fr 1fr;">
+            <label class="day-label"><input type="radio" name="doctorPreference" value="特になし">特になし</label>
+            <label class="day-label"><input type="radio" name="doctorPreference" value="女性医師希望">女性医師希望</label>
+            <label class="day-label"><input type="radio" name="doctorPreference" value="男性医師希望">男性医師希望</label>
+            <label class="day-label"><input type="radio" name="doctorPreference" value="院長希望">院長希望</label>
+          </div>
+          <p class="error-msg" id="err-doctorPreference">医師の希望を選択してください</p>
+        </div>
+
         <!-- 希望曜日 -->
         <div class="field-group">
           <label>キャンセル待ちを希望する曜日 <span class="required">必須</span></label>
@@ -396,6 +418,28 @@
     if (!examDate) { showError('err-examDate', 'examDate'); valid = false; }
     else clearError('err-examDate', 'examDate');
 
+    const drinkLocation = document.querySelector('input[name="drinkLocation"]:checked');
+    const drinkGrid = document.getElementById('drink-location-grid');
+    if (!drinkLocation) {
+      document.getElementById('err-drinkLocation').classList.add('visible');
+      drinkGrid.classList.add('error-input');
+      valid = false;
+    } else {
+      document.getElementById('err-drinkLocation').classList.remove('visible');
+      drinkGrid.classList.remove('error-input');
+    }
+
+    const doctorPreference = document.querySelector('input[name="doctorPreference"]:checked');
+    const doctorGrid = document.getElementById('doctor-pref-grid');
+    if (!doctorPreference) {
+      document.getElementById('err-doctorPreference').classList.add('visible');
+      doctorGrid.classList.add('error-input');
+      valid = false;
+    } else {
+      document.getElementById('err-doctorPreference').classList.remove('visible');
+      doctorGrid.classList.remove('error-input');
+    }
+
     const checkedDays = [...document.querySelectorAll('input[name="days"]:checked')];
     const dayGrid = document.getElementById('day-grid');
     if (checkedDays.length === 0) {
@@ -423,8 +467,10 @@
       firstName: document.getElementById('firstName').value.trim(),
       phone:     document.getElementById('phone').value.trim(),
       email:     document.getElementById('email').value.trim(),
-      examDate:  document.getElementById('examDate').value,
-      days:      days
+      examDate:      document.getElementById('examDate').value,
+      drinkLocation:    document.querySelector('input[name="drinkLocation"]:checked').value,
+      doctorPreference: document.querySelector('input[name="doctorPreference"]:checked').value,
+      days:             days
     };
 
     submitBtn.disabled = true;
