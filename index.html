@@ -378,7 +378,7 @@
           <p class="error-msg" id="err-patientId">5桁の数字で入力してください</p>
         </div>
 
-        <button type="submit" class="btn-submit" id="submit-btn">登録する</button>
+        <button type="button" class="btn-submit" id="submit-btn" onclick="handleSubmit()">登録する</button>
         <p id="send-error">送信に失敗しました。時間をおいて再度お試しください。</p>
 
       </form>
@@ -418,7 +418,6 @@
     document.getElementById('examDate').min = `${yyyy}-${mm}-${dd}`;
   })();
 
-  const form = document.getElementById('waitlist-form');
   const submitBtn = document.getElementById('submit-btn');
 
   function showError(id, inputId) {
@@ -500,8 +499,7 @@
     return valid;
   }
 
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
+  async function handleSubmit() {
     document.getElementById('send-error').style.display = 'none';
 
     if (!validate()) return;
@@ -540,7 +538,7 @@
       submitBtn.disabled = false;
       submitBtn.textContent = '登録する';
     }
-  });
+  }
 </script>
 
 </body>
