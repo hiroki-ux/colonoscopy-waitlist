@@ -370,6 +370,14 @@
           <p class="error-msg" id="err-days">希望する曜日を1つ以上選択してください</p>
         </div>
 
+        <!-- 患者ID -->
+        <div class="field-group">
+          <label for="patientId">患者ID</label>
+          <input type="text" id="patientId" placeholder="例：00010" inputmode="numeric" maxlength="5">
+          <p class="hint">5桁のID番号がわかる方はご記入ください。ご不明な場合は記入不要です</p>
+          <p class="error-msg" id="err-patientId">5桁の数字で入力してください</p>
+        </div>
+
         <button type="submit" class="btn-submit" id="submit-btn">登録する</button>
         <p id="send-error">送信に失敗しました。時間をおいて再度お試しください。</p>
 
@@ -481,6 +489,14 @@
       dayGrid.classList.remove('error-input');
     }
 
+    const patientId = document.getElementById('patientId').value.trim();
+    if (patientId && !/^\d{5}$/.test(patientId)) {
+      showError('err-patientId', 'patientId');
+      valid = false;
+    } else {
+      clearError('err-patientId', 'patientId');
+    }
+
     return valid;
   }
 
@@ -500,31 +516,5 @@
       examDate:      document.getElementById('examDate').value,
       drinkLocation:    document.querySelector('input[name="drinkLocation"]:checked').value,
       doctorPreference: document.querySelector('input[name="doctorPreference"]:checked').value,
-      days:             days
-    };
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = '送信中...';
-
-    try {
-      await fetch(GAS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      document.getElementById('form-wrapper').style.display = 'none';
-      document.getElementById('success-msg').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    } catch (err) {
-      document.getElementById('send-error').style.display = 'block';
-      submitBtn.disabled = false;
-      submitBtn.textContent = '登録する';
-    }
-  });
-</script>
-
-</body>
-</html>
+      days:             days,
+      patientId:        document.getElementById('pati
